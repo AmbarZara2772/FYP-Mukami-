@@ -1,7 +1,8 @@
-import { rules, schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+// import { column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class SupplierValidator {
+export default class AdminValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -24,12 +25,10 @@ export default class SupplierValidator {
    *    ```
    */
   public schema = schema.create({
-    phone_number: schema.number([rules.required(), rules.unique()]),
-    shop_name: schema.number([rules.required(), rules.unique()]),
-    cnic_front: schema.number([rules.required(), rules.unique()]),
-    cnic_back: schema.number([rules.required(), rules.unique()]),
-    adress: schema.number([rules.required(),]),
-  })
+    name: schema.string([rules.required(), rules.unique({table:'admins', column: 'name'})]),
+    password: schema.string([rules.required(), rules.minLength(8), 
+      rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)])
+    })
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -42,5 +41,11 @@ export default class SupplierValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'name.required': 'Enter your name',
+    'name.unique': 'This admin is alresdy exist',
+    'password.required': 'EnTER your password',
+    'password.minLength': 'Password contain minimum 8 characters',
+    'password.regex': 'Password must contain at least one uppercase letter, one lowercase letter, one numeric digit, and one special character'
+  }
 }

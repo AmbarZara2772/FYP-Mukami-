@@ -18,18 +18,16 @@
 |
 */
 
-// import Route from '@ioc:Adonis/Core/Route'
 
-// Route.get('/', async () => {
-//   return { hello: 'world' }
-// })
-import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
+
 import Route from '@ioc:Adonis/Core/Route'
 
-// check db connection
-Route.get('health', async ({ response }) => {
-  const report = await HealthCheck.getReport()
+  Route.post('/admin', 'AdminsController.store')
+  Route.get('/admin', 'AdminsController.index')
+  Route.put('/admin/:id', 'AdminsController.update')
+  Route.delete('/admin/:id', 'AdminsController.destroy')
 
-  return report.healthy ? response.ok(report) : response.badRequest(report)
-})
-
+  Route.post('/supplier', '')
+  Route.get('/supplier', '')
+  Route.put('/supplier/:id', '')
+  Route.delete('/supplier/:id', '')
