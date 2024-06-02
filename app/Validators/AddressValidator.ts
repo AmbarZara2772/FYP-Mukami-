@@ -1,6 +1,7 @@
 import { rules, schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-export default class SupplierValidator {
+
+export default class AddressValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -23,14 +24,10 @@ export default class SupplierValidator {
    *    ```
    */
   public schema = schema.create({
-    phone_number: schema.string([rules.required(), rules.regex(/^0\d{10}$/), rules.unique({ table: 'suppliers', column: 'phone_number'})]),
-    shop_name: schema.string([rules.required(), rules.unique({ table: 'suppliers', column: 'shop_name'}), rules.maxLength(20)]),
-    cnic_number: schema.string([rules.required(),  rules.regex(/^\d{5}-\d{7}-\d{1}$/), rules.unique({ table: 'suppliers', column: 'cnic_number'}), ]),
-    shop_logo: schema.file({
-      size: '5mb',
-      extnames: ['jpg', 'png', 'jpeg', 'svg']
-    }),
-  address: schema.string([rules.required(), rules.regex(/^.{5,200}$/)])
+    name: schema.string([rules.required(), rules.regex(/^.{2,50}$/)]),
+    phone_number: schema.string([rules.required(), rules.regex(/^0\d{10}$/),]),
+    city: schema.string([rules.required()]),
+    full_address: schema.string([rules.required(), rules.regex(/^.{5,200}$/)])
   })
 
   /**
@@ -45,13 +42,13 @@ export default class SupplierValidator {
    *
    */
   public messages: CustomMessages = {
+    'name.required': 'Enter your name',
+    'name.regex': 'The length of name should be 2-50 characters',
     'phone_number.required': 'Enter phone number',
     'phone_number.regex': 'Correct your phone number',
-    'shop_name.required': 'Enter your shop',
-    'shop_name.regex': 'The length of  shop name should be 2-50 characters',
-    'cnic_number.unique': 'this cnic is already exist',
-    'cnic_number.regex': 'follow CNIC format',
-    'address.required': 'Enter full adress',
-    'address.regex': 'The length of full adress should be 5-200 characters'
+    'city.required': 'Enter your city',
+    'full_address.required': 'Enter full adress',
+    'full_address.regex': 'The length of full adress should be 5-200 characters'
+
   }
 }

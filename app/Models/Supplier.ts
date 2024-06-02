@@ -1,32 +1,30 @@
 // import { Supplier } from 'App/Models/Supplier';
 import { DateTime } from 'luxon'
 // import Hash from '@ioc:Adonis/Core/Hash'
-import { column, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, BaseModel, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Product from './Product'
 
 export default class Supplier extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public Supplier_id: number
+  public supplierId: string
 
   @column()
-  public phone_number: number
+  public phoneNumber: string
 
   @column()
-  public shop_name: string
+  public shopName: string
 
   @column()
-  public phone_logo: string
+  public shopLogo: string
 
   @column()
-  public cnic_front: string
+  public cnicNumber: string
 
   @column()
-  public cnic_back: string
-
-  @column()
-  public adress: string
+  public address: string
 
   @column()
   public rememberMeToken: string | null
@@ -36,6 +34,10 @@ export default class Supplier extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => Product)
+  public products: HasMany<typeof Product>
+
 
   // @beforeSave()
   // public static async hashPassword (supplier: Supplier) {

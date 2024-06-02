@@ -6,19 +6,19 @@ export default class BankAccount extends BaseModel {
   public id: number
 
   @column()
-  public account_number: number
+  public accountNumber: string
 
   @column()
-  public account_type: string
+  public accountHolder: string
 
   @column()
-  public reseller_id: number
+  public accountType: string
 
   @column()
-  public account_holder: string
+  public resellerId: number
 
   @column()
-  public supplier_id: number
+  public supplierId: number
 
 
   @column.dateTime({ autoCreate: true })

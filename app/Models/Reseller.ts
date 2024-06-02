@@ -6,13 +6,13 @@ export default class Reseller extends BaseModel {
   public id: number
 
   @column()
-  public reseller_id: number
+  public resellerId: string
 
   @column()
-  public phone_number: number
+  public phoneNumber: string
 
   @column()
-  public business_name: string
+  public businessName: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

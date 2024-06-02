@@ -1,7 +1,7 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class AdressValidator {
+export default class SupplierLoginValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -23,7 +23,9 @@ export default class AdressValidator {
    *     ])
    *    ```
    */
-  public schema = schema.create({})
+  public schema = schema.create({
+    phone_number: schema.string([rules.required()]) 
+  })
 
   /**
    * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -36,5 +38,7 @@ export default class AdressValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'phone_number.required': 'Enter phone number',
+  }
 }

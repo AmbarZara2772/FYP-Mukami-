@@ -17,7 +17,7 @@ import type { AuthConfig } from '@ioc:Adonis/Addons/Auth'
 |
 */
 const authConfig: AuthConfig = {
-  guard: 'api',
+  guard: 'supplier',
   guards: {
     /*
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ const authConfig: AuthConfig = {
     | on cookies/sessions.
     |
     */
-    api: {
+    supplier: {
       driver: 'oat',
 
       /*
@@ -52,7 +52,7 @@ const authConfig: AuthConfig = {
         type: 'api',
         driver: 'database',
         table: 'api_tokens',
-        foreignKey: 'user_id',
+        // foreignKey: 'supplier_id',
       },
 
       provider: {
@@ -87,7 +87,7 @@ const authConfig: AuthConfig = {
         | of the mentioned columns to find their user record.
         |
         */
-        uids: ['email'],
+        uids: ['phoneNumber'],
 
         /*
         |--------------------------------------------------------------------------

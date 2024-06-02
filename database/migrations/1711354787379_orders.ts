@@ -17,7 +17,7 @@ export default class extends BaseSchema {
       table.integer('total', 255).notNullable()
       table.string('tracking', 255).notNullable()
       table.string('status', 255).notNullable()
-      table.string('adress', 255).notNullable()
+      table.string('address', 255).notNullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

@@ -5,6 +5,7 @@
  * file.
  */
 
+import { OATGuardConfig, } from '@ioc:Adonis/Addons/Auth'
 import Supplier from 'App/Models/Supplier'
 
 declare module '@ioc:Adonis/Addons/Auth' {
@@ -33,11 +34,14 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | different Lucid models.
     |
     */
-    user: {
+    supplier: {
       implementation: LucidProviderContract<typeof Supplier>
       config: LucidProviderConfig<typeof Supplier>
     }
   }
+
+
+
 
   /*
   |--------------------------------------------------------------------------
@@ -64,10 +68,10 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | to authenticate requests.
     |
     */
-    api: {
-      implementation: OATGuardContract<'user', 'api'>
-      config: OATGuardConfig<'user'>
-      client: OATClientContract<'user'>
+    supplier: {
+      implementation: OATGuardContract<'supplier', 'supplier'>
+      config: OATGuardConfig<'supplier'>
+      client: OATClientContract<'supplier'>
     }
   }
 }
