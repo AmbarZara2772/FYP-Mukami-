@@ -21,10 +21,11 @@
 
 
 import Route from '@ioc:Adonis/Core/Route'
-Route.post('/login' , 'SuppliersController.login').middleware('auth.supplier')
+Route.post('/supplier', 'SuppliersController.register')
+Route.post('/login' , 'SuppliersController.login')
+//Suplier
   Route.group(() => {
-
-  Route.post('/supplier', 'SuppliersController.store')
+    //Supplier
   Route.get('/supplier', 'SuppliersController.index')
   Route.put('/supplier/:id', 'SuppliersController.update')
   Route.delete('/supplier/:id', 'SuppliersController.destroy')
@@ -39,7 +40,7 @@ Route.post('/login' , 'SuppliersController.login').middleware('auth.supplier')
   Route.get('/category', 'CategoriesController.index')
   Route.put('/category/:id', 'CategoriesController.update')
   Route.delete('/category/:id', 'CategoriesController.destroy')
-  })
+  }).middleware(['auth'])
 
 
   Route.group(() => {

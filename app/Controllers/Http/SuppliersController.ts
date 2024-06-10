@@ -6,7 +6,7 @@ import { generateSupplierId } from 'App/Utils/ApiUtils'
 import { Response } from 'App/Utils/ApiUtils'
 import SupplierLoginValidator from 'App/Validators/SupplierLoginValidator'
 export default class SuppliersController {
-  public async store({ request, response }: HttpContextContract) {
+  public async register({ request, response }: HttpContextContract) {
     try {
       // Validate request data
       const { phone_number, shop_name, shop_logo, cnic_number, address } = await request.validate(SupplierValidator)
@@ -84,7 +84,7 @@ export default class SuppliersController {
     const { phone_number } = await request.validate(SupplierLoginValidator)
     try {
       const supplier = await Supplier.findByOrFail('phoneNumber', phone_number)
-      const token = await auth.use('supplier').generate(supplier)
+      const token = await auth.use('api_supplier').generate(supplier)
       return response.json(token)
     } catch (error) {
       console.log(error)
