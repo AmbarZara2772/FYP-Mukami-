@@ -20,13 +20,13 @@ export default class Product extends BaseModel {
   public price: number
 
   @column()
-  public discription: string
+  public description: string
 
   @column()
-  public category_id: string
+  public categoryId: number
 
   @column()
-  public supplier_id: string
+  public supplierId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -38,8 +38,5 @@ export default class Product extends BaseModel {
   public category: BelongsTo<typeof Category>
 
   @belongsTo(() => Supplier)
-  public supplier:BelongsTo<typeof Supplier>
-    static picture: string
-    static discription: string
-    static price: number
+  public supplier: BelongsTo<typeof Supplier>
 }

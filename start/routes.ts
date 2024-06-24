@@ -21,41 +21,55 @@
 
 
 import Route from '@ioc:Adonis/Core/Route'
-Route.post('/supplier', 'SuppliersController.register')
-Route.post('/login' , 'SuppliersController.login')
-//Suplier
+
+Route.post('/supplier/register', 'SuppliersController.register')
+Route.post('/supplier/login' , 'SuppliersController.login')
+Route.get('/supplier', 'SuppliersController.index')
+Route.put('/supplier/:id', 'SuppliersController.update')
+Route.delete('/supplier/:id', 'SuppliersController.destroy')
+
+//Suplier API's
   Route.group(() => {
     //Supplier
-  Route.get('/supplier', 'SuppliersController.index')
-  Route.put('/supplier/:id', 'SuppliersController.update')
-  Route.delete('/supplier/:id', 'SuppliersController.destroy')
-  Route.post('/logout' , 'SuppliersController.logout')
+
+  Route.post('supplier/logout' , 'SuppliersController.logout')
 
   Route.post('/product', 'ProductsController.store')
   Route.get('/product', 'ProductsController.index')
-  Route.put('/product/:id', 'ProductsController.update')
+  Route.patch('/product/:id', 'ProductsController.update')
   Route.delete('/product/:id', 'ProductsController.destroy')
 
-  Route.post('/category', 'CategoriesController.store')
-  Route.get('/category', 'CategoriesController.index')
-  Route.put('/category/:id', 'CategoriesController.update')
-  Route.delete('/category/:id', 'CategoriesController.destroy')
-  }).middleware(['auth'])
+  }).prefix('/api').middleware(['auth'])
 
 
-  Route.group(() => {
+                        // Reseller Endpoints
 
-  Route.post('/reseller', 'ResellersController.store')
+  Route.post('/reseller/register', 'ResellersController.register')
+  Route.post('/reseller/login', 'ResellersController.login')
   Route.get('/reseller', 'ResellersController.index')
   Route.put('/reseller/:id', 'ResellersController.update')
   Route.delete('/reseller/:id', 'ResellersController.destroy')
+
+  Route.group(() => {
+  Route.post('/reseller/logout', 'ResellersController.logout')
 
   Route.post('/address', 'AddressesController.store')
   Route.get('/address', 'AddressesController.index')
   Route.put('/address/:id', 'AddressesController.update')
   Route.delete('/address/:id', 'AddressesController.destroy')
+  }).prefix('/api').middleware(['auth'])
 
-  })
+
+
+
+
+
+
+  Route.post('/category', 'CategoriesController.store')
+  Route.get('/category', 'CategoriesController.index')
+  Route.put('/category/:id', 'CategoriesController.update')
+  Route.delete('/category/:id', 'CategoriesController.destroy')
+
   Route.post('/admin', 'AdminsController.store')
   Route.get('/admin', 'AdminsController.index')
   Route.put('/admin/:id', 'AdminsController.update')

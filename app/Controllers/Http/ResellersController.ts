@@ -1,50 +1,75 @@
- import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { Response } from 'App/Utils/ApiUtils'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { Response, generateResellerId } from 'App/Utils/ApiUtils'
 import Reseller from "App/Models/Reseller"
 import ResellerValidator from "App/Validators/ResellerValidator"
+import ResellerLoginValidator from 'App/Validators/ResellerLoginValidator'
 
 export default class ResellersController {
-    public async store({ request, response }: HttpContextContract) {
-        try {
-          const reseller = await request.validate(ResellerValidator)
-          await Reseller.create(reseller)
-          return response.send(Response({message: 'Add Reseller successfully'})) 
-        }
-        catch (error) {
-          console.log(error)
-          return response.status(400).send(error)
-        }
-      }
-      public async index({response }: HttpContextContract){
-        try {
-         const reseller = await Reseller.all()
-          return response.send(Response(reseller))
-        }
-        catch (error) {
-          console.log(error)
-          return response.status(400).send(error)
-        }
-      }
-      public async update({params, request, response}: HttpContextContract) {
-        try {
-          const reseller = await Reseller.findOrFail(params.id)
-          const data = await request.validate(ResellerValidator)
-          await reseller.merge(data).save()
-          response.send(Response({message: "Successfully updated Reseller"}))
-        }
-        catch (error) {
-          console.log(error)
-          return response.status(400).send(error)
-        }
-      }public async destroy({params, response}: HttpContextContract) {
-        try {
-          const reseller = await Reseller.findOrFail(params.id)
-          await reseller.delete()
-          return response.send(Response({message: "Successfully delete Reseller"}))
-        }
-        catch (error)  {
-          console.log(error)
-          return response.status(400).send(error)
-        }
-      }
+  public async register({ request, response }: HttpContextContract) {
+    try {
+      const { phone_number, business_name } = await request.validate(ResellerValidator)
+      const reseller = new Reseller
+
+      reseller.phoneNumber = phone_number
+      reseller.businessName = business_name
+      await reseller.save()
+
+      reseller.resellerId = generateResellerId(reseller.id)
+      await reseller.save()
+      return response.send(Response({ message: 'Successfully register Reseller' }))
+    }
+    catch (error) {
+      console.log(error)
+      return response.status(400).send(error)
+    }
+  }
+  public async index({ response }: HttpContextContract) {
+    try {
+      const reseller = await Reseller.all()
+      return response.send(Response(reseller))
+    }
+    catch (error) {
+      console.log(error)
+      return response.status(400).send(error)
+    }
+  }
+  public async update({ params, request, response }: HttpContextContract) {
+    try {
+      // Validate request data
+      const { phone_number, business_name} = await request.validate(ResellerValidator)
+      const reseller = await Reseller.findOrFail(params.id)
+
+      reseller.phoneNumber = phone_number
+      reseller.businessName = business_name
+      await reseller.save()
+      return response.send(Response({ message: 'Successfully update reseller' }))
+    } catch (error) {
+      console.log(error)
+      return response.status(400).send(error)
+    }
+  }
+
+  public async destroy({ params, response }: HttpContextContract) {
+    try {
+      const reseller = await Reseller.findOrFail(params.id)
+      await reseller.delete()
+      return response.send(Response({ message: "Successfully delete Reseller" }))
+    }
+    catch (error) {
+      console.log(error)
+      return response.status(400).send(error)
+    }
+  }
+
+  public async login({ request, response, auth }: HttpContextContract) {
+    const { phone_number } = await request.validate(ResellerLoginValidator)
+    try {
+      const reseller = await Reseller.findByOrFail('phoneNumber', phone_number)
+      const token = await auth.use('api_reseller').generate(reseller)
+      return response.json(token)
+    } catch (error) {
+      console.log(error)
+      return response.send(Response({ message: 'Invalid credentials' }))
+    }
+  }
 }

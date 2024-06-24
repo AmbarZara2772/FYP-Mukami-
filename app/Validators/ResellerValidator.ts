@@ -24,9 +24,8 @@ export default class ResellerValidator {
    *    ```
    */
   public schema = schema.create({
-    resellerId: schema.string([rules.required()]),
-    phoneNumber: schema.string([rules.required(), rules.unique({table: 'resellers', column: 'phone_number'}), rules.regex(/^0\d{10}$/)]),
-    businessName: schema.string([rules.required()])
+    phone_number: schema.string([rules.required(), rules.unique({table: 'resellers', column: 'phone_number'}), rules.regex(/^0\d{10}$/)]),
+    business_name: schema.string([rules.required()])
   })
 
   /**
@@ -41,10 +40,10 @@ export default class ResellerValidator {
    *
    */
   public messages: CustomMessages = {
-    'phoneNumber.required': 'Enter phone number',
-    'phoneNumber.regex': 'Correct your phone number',
-    'phoneNumber.unique': 'Already have an account',
-    'businessName.required': 'Enter your business',
+    'phone_number.required': 'Enter phone number',
+    'phone_number.regex': 'Correct your phone number',
+    'phone_number.unique': 'Already have an account',
+    'business_name.required': 'Enter your business',
     
   }
 }
