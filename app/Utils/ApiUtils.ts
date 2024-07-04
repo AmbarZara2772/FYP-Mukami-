@@ -31,3 +31,9 @@ export function generateSupplierId(Supplier_id) {
     const resellerId = `RES${Reseller_id}-${timestamp}`
     return resellerId.toUpperCase()
   }
+
+  export function generateOrderId(Order_id) {
+    const timestamp = Date.now().toString(36)
+    const orderId = `${Order_id}-${timestamp}`
+    return orderId.toUpperCase()
+  }

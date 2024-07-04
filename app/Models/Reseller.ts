@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, HasOne, column, hasMany, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import Order from './Order'
 
 export default class Reseller extends BaseModel {
   @column({ isPrimary: true })
@@ -19,4 +20,13 @@ export default class Reseller extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+ @hasMany(() => Order)
+ public orders: HasMany<typeof Order>
+
+ @hasOne(() => Reseller, {
+  foreignKey: 'resellerId'
+ })
+ public reseller:HasOne<typeof Reseller>
+
 }

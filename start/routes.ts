@@ -21,6 +21,7 @@
 
 
 import Route from '@ioc:Adonis/Core/Route'
+import OrdrersController from 'App/Controllers/Http/OrdrersController'
 
 Route.post('/supplier/register', 'SuppliersController.register')
 Route.post('/supplier/login' , 'SuppliersController.login')
@@ -30,19 +31,15 @@ Route.delete('/supplier/:id', 'SuppliersController.destroy')
 
 //Suplier API's
   Route.group(() => {
-    //Supplier
-
   Route.post('supplier/logout' , 'SuppliersController.logout')
 
   Route.post('/product', 'ProductsController.store')
   Route.get('/product', 'ProductsController.index')
   Route.patch('/product/:id', 'ProductsController.update')
   Route.delete('/product/:id', 'ProductsController.destroy')
-
   }).prefix('/api').middleware(['auth'])
 
-
-                        // Reseller Endpoints
+  //Reseller API's
 
   Route.post('/reseller/register', 'ResellersController.register')
   Route.post('/reseller/login', 'ResellersController.login')
@@ -53,24 +50,25 @@ Route.delete('/supplier/:id', 'SuppliersController.destroy')
   Route.group(() => {
   Route.post('/reseller/logout', 'ResellersController.logout')
 
+  Route.post('/order', 'OrdrersController.store')
+  Route.get('/order' , 'OrdrersController.index')
+  Route.put('/order/:id' , 'OrdrersController.update')
+  Route.delete('/order/:id' , 'OrdrersController.destroy')
+  }).prefix('/api').middleware(['auth'])
+
+
   Route.post('/address', 'AddressesController.store')
   Route.get('/address', 'AddressesController.index')
   Route.put('/address/:id', 'AddressesController.update')
   Route.delete('/address/:id', 'AddressesController.destroy')
-  }).prefix('/api').middleware(['auth'])
 
-
-
-
-
-
-
-  Route.post('/category', 'CategoriesController.store')
-  Route.get('/category', 'CategoriesController.index')
-  Route.put('/category/:id', 'CategoriesController.update')
-  Route.delete('/category/:id', 'CategoriesController.destroy')
 
   Route.post('/admin', 'AdminsController.store')
   Route.get('/admin', 'AdminsController.index')
   Route.put('/admin/:id', 'AdminsController.update')
   Route.delete('/admin/:id', 'AdminsController.destroy')
+
+  Route.post('/category', 'CategoriesController.store')
+  Route.get('/category', 'CategoriesController.index')
+  Route.put('/category/:id', 'CategoriesController.update')
+  Route.delete('/category/:id', 'CategoriesController.destroy')

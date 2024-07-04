@@ -1,21 +1,29 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import Reseller from './Reseller'
+import Payment from './Payment'
+import Product from './Product'
+import Address from './Address'
+
 
 export default class Order extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public order_id: number
+  public orderId: string
 
   @column()
-  public supplier_id: number
+  public productId: number
 
   @column()
-  public product_id: number
+  public resellerId: number
 
   @column()
-  public reseller_id: number
+  public addressId: number
+
+  @column()
+  public paymentId: number
 
   @column()
   public quantity: number
@@ -27,10 +35,10 @@ export default class Order extends BaseModel {
   public profit: number
 
   @column()
-  public deleivery_charges: number
+  public deleiveryCharges: number
 
   @column()
-  public total: number
+  public totalPrice: number
 
   @column()
   public tracking: string
@@ -38,12 +46,23 @@ export default class Order extends BaseModel {
   @column()
   public status: string
 
-  @column()
-  public address: string
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => Reseller)
+  public reseller: BelongsTo<typeof Reseller>
+
+  @belongsTo(() => Product)
+  public product:BelongsTo<typeof Product>
+
+  @hasOne(() => Payment)
+  public payment: HasOne<typeof Payment>
+
+  @belongsTo(() => Address)
+  public addres:BelongsTo<typeof Address>
+
+
 }

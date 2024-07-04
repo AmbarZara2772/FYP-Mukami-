@@ -1,4 +1,3 @@
-// import { Supplier } from 'App/Models/Supplier';
 import Application from '@ioc:Adonis/Core/Application'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Product from 'App/Models/Product';
@@ -23,7 +22,7 @@ export default class ProductsController {
             product.description = description
             product.price = price
             product.categoryId = category_id
-            product.supplierId= supplier_id
+            product.supplierId = supplier_id
             await product.save()
 
             product.productId = generateProductId(product.id)
@@ -44,16 +43,16 @@ export default class ProductsController {
                 .preload('category')
                 .preload('supplier');
 
-            const formattedProducts = products.map((product)=> {
-              return{ 
-                id: product.id,
-                name: product.name,
-                description: product.description,
-                price: product.price,
-                picture: product.picture,
-                category_name: product.category.name,
-                shop_name: product.supplier.shopName
-              }
+            const formattedProducts = products.map((product) => {
+                return {
+                    id: product.id,
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                    picture: product.picture,
+                    category_name: product.category.name,
+                    shop_name: product.supplier.shopName
+                }
             })
 
             return response.send(Response({ data: formattedProducts }));
@@ -65,9 +64,9 @@ export default class ProductsController {
 
     public async update({ request, response, params }: HttpContextContract) {
         try {
-            const { picture, name, price, description, category_id, supplier_id} = await request.validate(ProductValidator)
+            const { picture, name, price, description, category_id, supplier_id } = await request.validate(ProductValidator)
             const product = await Product.findOrFail(params.id)
-            
+
             if (picture) {
                 await picture.move(Application.tmpPath('upload'), {
                     name: `${Date.now()}-${picture.clientName}`,
@@ -93,16 +92,16 @@ export default class ProductsController {
 
     public async destroy({ params, response }: HttpContextContract) {
         try {
-          const product = await Product.findOrFail(params.id)
-          await product.delete()
-    
-          // Send success response
-          return response.send(Response({ message: 'Successfully delete product' }))
+            const product = await Product.findOrFail(params.id)
+            await product.delete()
+
+            // Send success response
+            return response.send(Response({ message: 'Successfully delete product' }))
         } catch (error) {
-          console.log(error)
-          return response.status(400).send(error)
+            console.log(error)
+            return response.status(400).send(error)
         }
-      }
+    }
 }
 
 

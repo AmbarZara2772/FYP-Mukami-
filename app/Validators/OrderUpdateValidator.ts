@@ -1,7 +1,7 @@
 import { schema, rules, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class BankDetailValidator {
+export default class OrderUpdateValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -24,9 +24,8 @@ export default class BankDetailValidator {
    *    ```
    */
   public schema = schema.create({
-    account_number: schema.string([rules.required(), rules.regex(/^0\d{10}$/)]),
-    account_holder: schema.string([rules.required()]),
-    account_type: schema.string([rules.required()])
+    status: schema.string([rules.required()]),
+    tracking: schema.string([rules.required(), rules.unique({table: 'orders', column: 'tracking'})])
   })
 
   /**
@@ -41,9 +40,8 @@ export default class BankDetailValidator {
    *
    */
   public messages: CustomMessages = {
-    'account_number.required': 'Add an account',
-    'account_holder.regex': 'Invalid account',
-    'account_type.required': 'Choose your account',
-    
+    'status.required': 'The status field is required.',
+    'tracking.required': 'The tracking field is required.',
+    'tracking.unique': 'The tracking field must be unique. This value is already in use.'
   }
 }

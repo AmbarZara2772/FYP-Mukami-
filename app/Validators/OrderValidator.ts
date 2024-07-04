@@ -24,14 +24,13 @@ export default class OrderValidator {
    *    ```
    */
   public schema = schema.create({
-    quantity: schema.string([rules.required()]),
-    price: schema.string([rules.required()]),
+    reseller_id: schema.number([rules.required()]),
+    quantity: schema.number.optional([rules.range(1, Number.MAX_SAFE_INTEGER)]),
+    price: schema.number([rules.required()]),
     profit: schema.number([rules.required()]),
-    deleivery_charges: schema.number([rules.required()]),
-    total: schema.number([rules.required()]),
-    tracking: schema.string([rules.required()]),
-    status: schema.string([rules.required()]),
-    address: schema.string([rules.required()])
+    deleivery_charges: schema.number([rules.required(), rules.equalTo('200')]),
+    total_price: schema.number([rules.required()]),
+    status: schema.string.optional([rules.required(), rules.equalTo('pending')]),
   })
 
   /**
@@ -45,5 +44,17 @@ export default class OrderValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+   'supplier_id.required': 'Supplier ID is required.',
+    'reseller_id.required': 'Reseller ID is required.',
+    'quantity.range': 'Quantity must be at least 1.',
+    'price.required': 'Price is required.',
+    'profit.required': 'Profit is required.',
+    'deleivery_charges.required': 'Deleivery charges are required.',
+    'deleivery_charges.equals': 'Deleivery charges must be exactly 200.',
+    'total_price.required': 'Total is required.',
+    'status.equals': 'Status must be "pending".',
+    'address.required': 'Address is required.'
+    
+  }
 }
