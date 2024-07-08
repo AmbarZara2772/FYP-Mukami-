@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.integer('reseller_id', 255).unsigned().references('id').inTable('resellers').onDelete('CASCADE')
       table.integer('product_id', 225).unsigned().references('id').inTable('products').onDelete('CASCADE')
       table.integer('address_id', 225).unsigned().references('id').inTable('addresses').onDelete('CASCADE')
-      table.integer('payment_id', 225).unsigned().references('id').inTable('payments').onDelete('CASCADE')
+      table.integer('supplier_id', 225).unsigned().references('id').inTable('suppliers').onDelete('CASCADE')
       table.integer('quantity', 180).notNullable()
       table.integer('price', 255).notNullable()
       table.integer('profit', 255).notNullable()
@@ -18,6 +18,8 @@ export default class extends BaseSchema {
       table.integer('total_price', 255).notNullable()
       table.string('tracking', 255).nullable()
       table.string('status', 255).notNullable()
+      table.string('profit_status', 180).nullable()
+      table.string('sale_status', 180).nullable()
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

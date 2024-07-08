@@ -1,3 +1,4 @@
+import Hash from '@ioc:Adonis/Core/Hash'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Admin from 'App/Models/Admin'
 import { Response } from 'App/Utils/ApiUtils'
@@ -5,7 +6,7 @@ import AdminValidator from 'App/Validators/AdminValidator'
 
 export default class AdminsController {
   //store
-  public async store({ request, response }: HttpContextContract) {
+  public async register({ request, response }: HttpContextContract) {
     try {
       const data = await request.validate(AdminValidator)
       await Admin.create(data)
@@ -50,6 +51,24 @@ export default class AdminsController {
       console.log(error)
       return response.status(400).send(error)
     }
+  }
+  public async login({ request, response, auth }: HttpContextContract) {
+    const { username,  password} = await request.validate(AdminValidator)
+    try {
+      const admin = await Admin.findByOrFail('username', username)
+      if(!(await Hash.verify(admin.password, password))) {
+        return response.status(400).send(Response({message: 'Invalid name and password'}))
+      }
+      const token = await auth.use('api_admin').generate(admin)
+      return response.send(Response({message: 'Admin LoggedIn Successfully', token: token}))
+    } catch (error) {
+      console.log(error)
+      return response.send(Response({ message: 'Invalid credentials' }))
+    }
+  }
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.logout()
+    return response.send(Response({ message: 'Successfully logged out' }))
   }
 }
 

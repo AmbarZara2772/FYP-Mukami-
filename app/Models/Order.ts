@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, } from '@ioc:Adonis/Lucid/Orm'
 import Reseller from './Reseller'
-import Payment from './Payment'
 import Product from './Product'
 import Address from './Address'
+import Supplier from './Supplier'
 
 
 export default class Order extends BaseModel {
@@ -46,6 +46,12 @@ export default class Order extends BaseModel {
   @column()
   public status: string
 
+  @column()
+  public profitStatus: string
+
+  @column()
+  public saleStatus: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
@@ -58,11 +64,11 @@ export default class Order extends BaseModel {
   @belongsTo(() => Product)
   public product:BelongsTo<typeof Product>
 
-  @hasOne(() => Payment)
-  public payment: HasOne<typeof Payment>
-
   @belongsTo(() => Address)
   public addres:BelongsTo<typeof Address>
+
+  @belongsTo(() => Supplier)
+  public supplier: BelongsTo<typeof Supplier>
 
 
 }

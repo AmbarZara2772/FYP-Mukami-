@@ -9,7 +9,6 @@ export default class Category extends BaseModel {
   @column()
   public categoryId: string
 
-
   @column()
   public name: string
 

@@ -8,6 +8,7 @@
 import { OATGuardConfig, } from '@ioc:Adonis/Addons/Auth'
 import Supplier from 'App/Models/Supplier'
 import Reseller from 'App/Models/Reseller'
+import Admin from 'App/Models/Admin'
 
 declare module '@ioc:Adonis/Addons/Auth' {
   /*
@@ -35,6 +36,10 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | different Lucid models.
     |
     */
+    admin: {
+      implementation: LucidProviderContract<typeof Admin>
+      confg: LucidProviderConfig<typeof Admin>
+    }
     supplier: {
       implementation: LucidProviderContract<typeof Supplier>
       config: LucidProviderConfig<typeof Supplier>
@@ -73,6 +78,12 @@ declare module '@ioc:Adonis/Addons/Auth' {
     | to authenticate requests.
     |
     */
+    api_admin: {
+      implementation: OATGuardContract<'admin', 'api_admin'>
+      config: OATGuardConfig<'admin'>
+      client: OATClientContract<'admin'>
+
+    }
     api_supplier: {
       implementation: OATGuardContract<'supplier', 'api_supplier'>
       config: OATGuardConfig<'supplier'>

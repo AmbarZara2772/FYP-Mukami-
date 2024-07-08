@@ -3,6 +3,7 @@ import { DateTime } from 'luxon'
 // import Hash from '@ioc:Adonis/Core/Hash'
 import { column, BaseModel, HasMany, hasMany, hasOne, HasOne, } from '@ioc:Adonis/Lucid/Orm'
 import Product from './Product'
+import Order from './Order'
 export default class Supplier extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -41,6 +42,9 @@ export default class Supplier extends BaseModel {
     foreignKey: 'supplierId'
   })
   public supplier: HasOne<typeof Supplier>
+
+  @hasMany(() => Order)
+  public order: HasMany<typeof Order>
 
 
   // @beforeSave()

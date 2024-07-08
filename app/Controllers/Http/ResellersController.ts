@@ -5,7 +5,7 @@ import ResellerValidator from "App/Validators/ResellerValidator"
 import ResellerLoginValidator from 'App/Validators/ResellerLoginValidator'
 
 export default class ResellersController {
-  public async register({ request, response }: HttpContextContract) {
+  public async register({ request, response, auth}: HttpContextContract) {
     try {
       const { phone_number, business_name } = await request.validate(ResellerValidator)
       const reseller = new Reseller
@@ -14,9 +14,11 @@ export default class ResellersController {
       reseller.businessName = business_name
       await reseller.save()
 
+      const token = await auth.use('api_reseller').generate(reseller)
+
       reseller.resellerId = generateResellerId(reseller.id)
       await reseller.save()
-      return response.send(Response({ message: 'Successfully register Reseller' }))
+      return response.send(Response({ message: 'Successfully register Reseller', token }))
     }
     catch (error) {
       console.log(error)
@@ -71,5 +73,9 @@ export default class ResellersController {
       console.log(error)
       return response.send(Response({ message: 'Invalid credentials' }))
     }
+  }
+  public async logout({ auth, response }: HttpContextContract) {
+    await auth.logout()
+    return response.send(Response({ message: 'Successfully logged out' }))
   }
 }

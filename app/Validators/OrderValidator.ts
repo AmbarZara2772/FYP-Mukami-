@@ -24,11 +24,11 @@ export default class OrderValidator {
    *    ```
    */
   public schema = schema.create({
-    reseller_id: schema.number([rules.required()]),
+    product_id: schema.number([rules.required()]),
     quantity: schema.number.optional([rules.range(1, Number.MAX_SAFE_INTEGER)]),
     price: schema.number([rules.required()]),
     profit: schema.number([rules.required()]),
-    deleivery_charges: schema.number([rules.required(), rules.equalTo('200')]),
+    deleivery_charges: schema.number([rules.required()]),
     total_price: schema.number([rules.required()]),
     status: schema.string.optional([rules.required(), rules.equalTo('pending')]),
   })
@@ -46,7 +46,6 @@ export default class OrderValidator {
    */
   public messages: CustomMessages = {
    'supplier_id.required': 'Supplier ID is required.',
-    'reseller_id.required': 'Reseller ID is required.',
     'quantity.range': 'Quantity must be at least 1.',
     'price.required': 'Price is required.',
     'profit.required': 'Profit is required.',

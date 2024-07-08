@@ -25,7 +25,7 @@ export default class AdminValidator {
    *    ```
    */
   public schema = schema.create({
-    name: schema.string([rules.required(), rules.unique({table:'admins', column: 'name'})]),
+    username: schema.string([rules.required()]),
     password: schema.string([rules.required(), rules.minLength(8), 
       rules.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)])
     })

@@ -31,7 +31,6 @@ export default class ProductValidator {
     name: schema.string([rules.required(), ]),
     price: schema.number([rules.required()]),
     description: schema.string([rules.required(), rules.regex(/^.{5,200}$/)]),
-    supplier_id: schema.number([rules.required()]),
     category_id: schema.number([rules.required()])
   })
 
@@ -51,6 +50,5 @@ export default class ProductValidator {
     'price.required': 'Enter price',
     'discription.required': 'Enter discription',
     'category_id.required': 'select category',
-    'supplier_id.requires': 'select supplier'
   }
 }
